@@ -1,25 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSocket } from "../context";
-import { styled } from "styled-components";
-
-const MessagesColumn = styled.div(() => ({
-  height: "85vh",
-  overflow: "auto",
-  padding: "10px 10px 10px 40px",
-}));
-
-const Message = styled.div(() => ({
-  background: "rgb(0, 24, 111)",
-  borderRadius: "6px",
-  marginBottom: "24px",
-  maxWidth: "600px",
-  padding: "12px",
-}));
-
-const MessageMeta = styled.span(() => ({
-  color: "rgb(153, 217, 234)",
-  fontSize: "0.75rem",
-}));
+import {
+  MessagesColumn,
+  Message,
+  MessageMeta,
+} from "./styled-compoents/styled-components";
 
 export const MessagesReceived = () => {
   const [messagesReceived, setMessagesReceived] = useState<

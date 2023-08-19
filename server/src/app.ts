@@ -8,6 +8,7 @@ import bodyParser from 'body-parser';
 import { Server } from 'socket.io';
 import { SaveMessageInDatabase } from './harper-save-message';
 import { harperGetMessages } from './get-messages';
+import { v4 as uuidv4 } from 'uuid';
 
 // Skapa Express-appen och definiera porten
 const app = express();
@@ -21,6 +22,29 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Skapa HTTP-server med Express-appen
 const server = http.createServer(app);
 
+interface Room {
+  id: string;
+  name: string;
+  createdBy: string;
+}
+
+// Array för att hålla koll på aktiva rum
+const activeRooms: Room[] = []; 
+
+app.post('/create_room', (req, res) => {
+  const { roomName, username } = req.body;
+
+  // Generera ett unikt ID för rummet med hjälp av uuid
+  const roomId = uuidv4();
+
+  // Lägg till rummet i arrayen för aktiva rum
+  activeRooms.push({ id: roomId, name: roomName, createdBy: username });
+
+  // Skicka tillbaka information om det skapade rummet till klienten
+  res.json({ id: roomId, name: roomName });
+
+  console.log(`Rum "${roomName}" (ID: ${roomId}) skapat av ${username}`);
+});
 // Konstant för chattbot-username
 const CHAT_BOT = 'ChatBot';
 
@@ -87,14 +111,15 @@ io.on('connection', (socket) => {
     try {
       // Spara meddelandet i databasen
       const response = await SaveMessageInDatabase(message, username, room, __createdtime__);
-      console.log('this is the response:' + ' ' + response);
+      // console.log('this is the response:' + ' ' + response);
     } catch (error) {
-      console.log('This is he error from catch' + ' ' + error);
+      // console.log('This is he error from catch' + ' ' + error);
     }
   });
 
 
 });
+
 
 // Starta servern
 const run = () => {
