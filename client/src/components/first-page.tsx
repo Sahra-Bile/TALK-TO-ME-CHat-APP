@@ -41,6 +41,7 @@ const Option = styled.option(() => ({}));
 const Dropdown = styled.select(() => ({
   marginTop: "20px",
 }));
+
 export const FirstPage = () => {
   const { username, setUsername } = useUserContext();
   const { room, setRoom } = useRoomContext();
