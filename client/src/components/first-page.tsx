@@ -11,7 +11,7 @@ const Wrapper = styled.div(() => ({
   background: "rgba(22,16,26,0.2)",
 }));
 
-const FormWrapper = styled.h1(() => ({
+const FormWrapper = styled.div(() => ({
   width: "400px",
   margin: "0 auto 0 auto",
   padding: "32px",
