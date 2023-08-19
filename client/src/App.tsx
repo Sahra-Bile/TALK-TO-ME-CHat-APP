@@ -21,13 +21,10 @@ function App() {
       <UserProvider>
         <RoomProvider>
           <Router>
-            <div className="App">
-              <Home setPage={handlePageChange} />
-            </div>
             <Routes>
-              {/* <Route path="/" element={<Home setPage={handlePageChange} />} /> */}
+              <Route path="/" element={<Home setPage={handlePageChange} />} />
               <Route
-                path="/"
+                path="/room"
                 element={
                   page === "Create a New Room" ? (
                     <CreateAndJoinRoom />
