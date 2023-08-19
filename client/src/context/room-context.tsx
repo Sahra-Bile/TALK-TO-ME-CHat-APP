@@ -10,7 +10,7 @@ type UserProp = {
 };
 const RoomContext = createContext<RoomContextType | undefined>(undefined);
 
-export const useUserContext = () => {
+export const useRoomContext = () => {
   const context = useContext(RoomContext);
   if (!context) {
     throw new Error(" RoomContext must be used within a RoomProvider");

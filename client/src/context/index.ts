@@ -1,3 +1,4 @@
-export {SocketProvider} from './socket-context'
-export {UserProvider} from  './user-context'
-export {RoomProvider} from  './room-context'
+export {SocketProvider, useSocket} from './socket-context'
+export {UserProvider, useUserContext} from  './user-context'
+export {RoomProvider, useRoomContext} from  './room-context'
+
