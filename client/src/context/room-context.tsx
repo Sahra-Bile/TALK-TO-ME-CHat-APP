@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useState } from "react";
 
 type RoomContextType = {
-  username: string;
-  setUsername: (username: string) => void;
+  room: string;
+  setRoom: (room: string) => void;
 };
 
 type UserProp = {
@@ -18,11 +18,11 @@ export const useUserContext = () => {
   return context;
 };
 
-export const UserProvider = ({ children }: UserProp) => {
-  const [username, setUsername] = useState("");
+export const RoomProvider = ({ children }: UserProp) => {
+  const [room, setRoom] = useState("");
 
   return (
-    <RoomContext.Provider value={{ username, setUsername }}>
+    <RoomContext.Provider value={{ room, setRoom }}>
       {children}
     </RoomContext.Provider>
   );
