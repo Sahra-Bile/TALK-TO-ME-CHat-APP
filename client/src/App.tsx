@@ -1,16 +1,23 @@
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { FirstPage } from "./components/first-page";
+import { SocketProvider, UserProvider, RoomProvider } from "./context";
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <Routes>
-          <Route path="/" element={<FirstPage />} />
-        </Routes>
-      </div>
-    </Router>
+    <SocketProvider>
+      <UserProvider>
+        <RoomProvider>
+          <Router>
+            <div className="App">
+              <Routes>
+                <Route path="/" element={<FirstPage />} />
+              </Routes>
+            </div>
+          </Router>
+        </RoomProvider>
+      </UserProvider>
+    </SocketProvider>
   );
 }
 
