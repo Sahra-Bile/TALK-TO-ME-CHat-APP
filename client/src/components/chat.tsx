@@ -1,4 +1,3 @@
-import { styled } from "styled-components";
 import { MessagesReceived } from "./messages";
 import { SendMessage } from "./send-message";
 import { ChatContainer } from "./styled-compoents/styled-components";
