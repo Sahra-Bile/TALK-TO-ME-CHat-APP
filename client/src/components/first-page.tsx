@@ -29,7 +29,11 @@ const Input = styled.input(() => ({
   fontSize: "0.9rem",
 }));
 
-const Button = styled.button(() => ({}));
+const Button = styled.button(() => ({
+  width: "100%",
+  background: "rgb(0, 24, 111)",
+  color: "#fff",
+}));
 
 const Option = styled.option(() => ({}));
 const Dropdown = styled.select(() => ({
@@ -39,16 +43,16 @@ export const FirstPage = () => {
   return (
     <Wrapper>
       <FormWrapper>
-        <h3>{`<>DevRooms</>`}</h3>
+        <h3>{`🌮FoodRooms🍕`}</h3>
         <Input placeholder="Username..." />
         <Dropdown>
           <Option>-- Select Room --</Option>
-          <Option value="javascript">JavaScript</Option>
-          <Option value="node">Node</Option>
-          <Option value="express">Express</Option>
-          <Option value="react">React</Option>
+          <Option value="pasta">Pasta</Option>
+          <Option value="pizza">Pizza</Option>
+          <Option value="kebab">Kebab</Option>
+          <Option value="tacos">Tacos</Option>
         </Dropdown>
-        <Button className="btn btn-secondary">Join Room</Button>
+        <Button className="btn">Join Room</Button>
       </FormWrapper>
     </Wrapper>
   );
