@@ -6,7 +6,6 @@ import {
 } from "./styled-compoents/styled-components";
 
 export const SendMessage = () => {
-  console.log("Rendering SendMessage component");
   const [message, setMessage] = useState("");
   const socket = useSocket();
   const { username } = useUserContext();

@@ -23,14 +23,23 @@ export const RoomAndUsers = () => {
 
   useEffect(() => {
     const handleChatroomUsers = (data: User[]) => {
-      console.log(data);
+      console.log("Received chatroom_users:", data);
       setRoomUsers(data);
     };
 
+    const handleUserLeft = (leftUsername: string) => {
+      console.log("User left:", leftUsername);
+      setRoomUsers((prevUsers) =>
+        prevUsers.filter((user) => user.username !== leftUsername)
+      );
+    };
+
     socket.on("chatroom_users", handleChatroomUsers);
+    socket.on("user_left", handleUserLeft);
 
     return () => {
       socket.off("chatroom_users", handleChatroomUsers);
+      socket.off("user_left", handleUserLeft);
     };
   }, [socket]);
 
