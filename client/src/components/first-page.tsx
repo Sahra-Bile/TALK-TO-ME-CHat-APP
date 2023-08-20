@@ -8,6 +8,7 @@ import {
   Button,
   Option,
 } from "./styled-compoents/styled-components";
+import { notifyFailure } from "../utils/notifications";
 
 export const FirstPage = () => {
   const { username, setUsername } = useUserContext();
@@ -16,12 +17,19 @@ export const FirstPage = () => {
   const navigate = useNavigate();
 
   const handleJoinRoom = () => {
-    if (room !== "" && username !== "") {
+    console.log("Room:", room);
+    console.log("Username:", username);
+
+    if (room === "" || username === "") {
+      console.log("Missing room or username");
+      notifyFailure("You must enter your name and select a room");
+    } else {
+      console.log("Joining room:", room);
       socket.emit("join_room", { username, room });
+      navigate("/chat", { replace: true });
     }
-    // Redirect to /chat
-    navigate("/chat", { replace: true });
   };
+
   return (
     <Wrapper>
       <FormWrapper>

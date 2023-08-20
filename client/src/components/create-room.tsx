@@ -8,6 +8,7 @@ import {
   Label,
   Wrapper,
 } from "./styled-compoents/styled-components";
+import { notifyFailure } from "../utils/notifications";
 
 export const CreateAndJoinRoom = () => {
   const { username, setUsername } = useUserContext();
@@ -16,10 +17,12 @@ export const CreateAndJoinRoom = () => {
   const navigate = useNavigate();
 
   const handleJoinRoom = () => {
-    if (room !== "" && username !== "") {
+    if (room === "" || username === "") {
+      notifyFailure("You must enter your name and room name");
+    } else if (room !== "" && username !== "") {
       socket.emit("join_room", { username, room });
     }
-    // Redirect to /chat
+    //nåt fel på hur vi hanterar url path kolla vad som orsaker felet...
     navigate("/chat", { replace: true });
   };
 
