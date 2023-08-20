@@ -13,10 +13,8 @@ function App() {
   const [page, setPage] = useState("Create a New Room");
 
   const handlePageChange = (newPage: string) => {
-    console.log("Changing page to:", newPage); // Add this line
     setPage(newPage);
   };
-  console.log("Current page:", page); // Add this line
 
   return (
     <>

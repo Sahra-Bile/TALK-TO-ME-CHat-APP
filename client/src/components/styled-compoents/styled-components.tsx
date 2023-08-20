@@ -1,4 +1,14 @@
 import styled from "styled-components";
+
+export const Heading = styled.h1(() => ({
+  fontSize: "3rem",
+  color: "white",
+  fontFamily: "fantasy",
+  textAlign: "center",
+  padding: "40px",
+  margin: "10px",
+}));
+
 export const Wrapper = styled.div(() => ({
   height: "100vh",
   width: "100%",

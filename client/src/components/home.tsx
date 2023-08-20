@@ -1,5 +1,5 @@
 import { MouseEventHandler } from "react";
-import { Container } from "./styled-compoents/styled-components";
+import { Container, Heading } from "./styled-compoents/styled-components";
 import { useNavigate } from "react-router-dom";
 
 type HomePageProps = {
@@ -7,7 +7,6 @@ type HomePageProps = {
 };
 
 export function Home({ setPage }: HomePageProps) {
-  console.log("Rendering Home component");
   const navigate = useNavigate();
 
   // Change the type of the event handler to MouseEventHandler
@@ -19,7 +18,7 @@ export function Home({ setPage }: HomePageProps) {
 
   return (
     <Container>
-      <h1>Welcome to TALK TO ME</h1>
+      <Heading>Welcome to TALK TO ME</Heading>
       <button
         className="btn btn-secondary"
         value={"Create a New Room"}
