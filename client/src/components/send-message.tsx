@@ -3,10 +3,10 @@ import { useUserContext, useSocket, useRoomContext } from "../context";
 import {
   SendMessageContainer,
   MessageInput,
-  StyledButton,
 } from "./styled-compoents/styled-components";
 
 export const SendMessage = () => {
+  console.log("Rendering SendMessage component");
   const [message, setMessage] = useState("");
   const socket = useSocket();
   const { username } = useUserContext();
@@ -27,9 +27,9 @@ export const SendMessage = () => {
         onChange={(e) => setMessage(e.target.value)}
         value={message}
       />
-      <StyledButton className="btn" onClick={sendMessage}>
+      <button className="btn btn-primary " onClick={sendMessage}>
         Send Message
-      </StyledButton>
+      </button>
     </SendMessageContainer>
   );
 };

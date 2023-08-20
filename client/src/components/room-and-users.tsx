@@ -1,4 +1,3 @@
-// import styles from "./styles.module.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRoomContext, useSocket, useUserContext } from "../context";
@@ -51,7 +50,7 @@ export const RoomAndUsers = () => {
           {roomUsers.map((user) => (
             <li
               style={{
-                marginBottom: "12px;",
+                marginBottom: "12px",
                 fontWeight: `${user.username === username ? "bold" : "normal"}`,
               }}
               key={user.id}

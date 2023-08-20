@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useSocket, useUserContext } from "../context";
+import React from "react";
+import { useSocket, useUserContext, useRoomContext } from "../context";
 import { useNavigate } from "react-router-dom";
 import {
   Form,
@@ -10,33 +10,14 @@ import {
 } from "./styled-compoents/styled-components";
 
 export const CreateAndJoinRoom = () => {
-  const [roomName, setRoomName] = useState("");
-  const socket = useSocket();
   const { username, setUsername } = useUserContext();
+  const { room, setRoom } = useRoomContext();
+  const socket = useSocket();
   const navigate = useNavigate();
 
-  const handleCreateAndJoin = async () => {
-    try {
-      // Skapa ett nytt rum på servern
-      const response = await fetch("http://localhost:4000/create_room", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          roomName,
-          username, // Skicka användarnamnet
-        }),
-      });
-      const createdRoom = await response.json();
-
-      // Anslut klienten till det nya rummet
-      socket.emit("join_room", {
-        username,
-        room: createdRoom.id,
-      });
-    } catch (error) {
-      console.error("Error creating and joining room:", error);
+  const handleJoinRoom = () => {
+    if (room !== "" && username !== "") {
+      socket.emit("join_room", { username, room });
     }
     // Redirect to /chat
     navigate("/chat", { replace: true });
@@ -56,14 +37,14 @@ export const CreateAndJoinRoom = () => {
           <Label>Room Name </Label>
           <Input
             type="text"
-            value={roomName}
-            onChange={(event) => setRoomName(event.target.value)}
+            value={room}
+            onChange={(event) => setRoom(event.target.value)}
             placeholder=" The room name "
           />
           <button
             className="btn btn-primary"
             style={{ width: "100%", marginTop: "30px" }}
-            onClick={handleCreateAndJoin}
+            onClick={handleJoinRoom}
           >
             {" "}
             Create and Join Room

@@ -7,6 +7,7 @@ import {
 } from "./styled-compoents/styled-components";
 
 export const MessagesReceived = () => {
+  console.log("Rendering MessagesReceived component");
   const [messagesReceived, setMessagesReceived] = useState<
     { message: string; username: string; __createdtime__: number }[]
   >([]);

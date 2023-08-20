@@ -59,13 +59,11 @@ export const Label = styled.label(() => ({
 }));
 
 export const ChatContainer = styled.div(() => ({
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "center",
-  alignItems: "center",
-  // maxWidth: "1100px",
+  maxWidth: "1100",
   margin: "0 auto",
-  // gap: "20px",
+  gap: "20px",
+  display: "grid",
+  gridTemplateColumns: "1fr 4fr",
 }));
 
 export const MessagesColumn = styled.div(() => ({
@@ -89,21 +87,22 @@ export const MessageMeta = styled.span(() => ({
 
 export const SendMessageContainer = styled.div(() => ({
   padding: "16px 20px 20px 16px",
-  background: "burlywood",
 }));
 
 export const MessageInput = styled.input(() => ({
   padding: "14px",
   marginRight: "16px",
   width: "60%",
-  borderRadius: "10px",
+  borderRadius: "6px",
   border: "1px solid rgb(153, 217, 234)",
-  fontSize: "1rem",
+  fontSize: "0.9rem",
 }));
+
 export const StyledButton = styled.button(() => ({
+  marginLeft: " 0.5rem",
+  fontSize: "1.25rem",
   background: "rgb(153, 217, 234)",
   color: "rgb(0, 24, 111)",
-  alignItems: "center",
 }));
 
 export const RoomColumn = styled.div(() => ({
@@ -130,9 +129,9 @@ export const UsersList = styled.ul(() => ({
 }));
 
 export const MessageWrapper = styled.div(() => ({
+  minHeight: "100vh",
+  height: "100vh",
+  width: "calc(100% - 200px)",
   display: "flex",
   flexDirection: "column",
-  justifyContent: "flex-start",
-  alignItems: "stretch",
-  gap: "15px",
 }));

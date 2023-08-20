@@ -8,12 +8,12 @@ import {
 
 export const Chat = () => {
   return (
-    <>
-      <ChatContainer>{/* <RoomAndUsers /> */}</ChatContainer>
+    <ChatContainer>
+      <RoomAndUsers />
       <MessageWrapper>
         <MessagesReceived />
         <SendMessage />
       </MessageWrapper>
-    </>
+    </ChatContainer>
   );
 };

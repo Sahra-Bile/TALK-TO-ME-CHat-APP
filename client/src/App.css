@@ -6,7 +6,8 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background: rgb(63, 73, 204);
+  background: #0064c8;
+
 }
 ::-webkit-scrollbar {
   width: 20px;
@@ -45,6 +46,3 @@ body {
   color: #fff;
 }
 
-.app {
-  display: flex;
-}
