@@ -15,7 +15,7 @@ export const FirstPage = () => {
   const socket = useSocket();
   const navigate = useNavigate();
 
-  const joinRoom = () => {
+  const handleJoinRoom = () => {
     if (room !== "" && username !== "") {
       socket.emit("join_room", { username, room });
     }
@@ -37,7 +37,7 @@ export const FirstPage = () => {
           <Option value="kebab">Kebab</Option>
           <Option value="tacos">Tacos</Option>
         </Dropdown>
-        <Button className="btn" onClick={joinRoom}>
+        <Button className="btn" onClick={handleJoinRoom}>
           Join Room
         </Button>
       </FormWrapper>

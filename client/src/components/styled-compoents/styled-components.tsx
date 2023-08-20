@@ -63,9 +63,9 @@ export const ChatContainer = styled.div(() => ({
   flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
-  maxWidth: "1100px",
+  // maxWidth: "1100px",
   margin: "0 auto",
-  gap: "20px",
+  // gap: "20px",
 }));
 
 export const MessagesColumn = styled.div(() => ({
@@ -104,4 +104,35 @@ export const StyledButton = styled.button(() => ({
   background: "rgb(153, 217, 234)",
   color: "rgb(0, 24, 111)",
   alignItems: "center",
+}));
+
+export const RoomColumn = styled.div(() => ({
+  borderRight: "1px solid #dfdfdf",
+}));
+
+export const RoomTitle = styled.h1(() => ({
+  marginBottom: "60px",
+  textTransform: "uppercase",
+  fontSize: "2rem",
+  color: "#fff",
+}));
+
+export const UserName = styled.h5(() => ({
+  fontSize: "1.2rem",
+  color: "#fff",
+}));
+
+export const UsersList = styled.ul(() => ({
+  listStyleType: "none",
+  paddingLeft: "0",
+  marginBottom: "60px",
+  color: "rgb(153, 217, 234)",
+}));
+
+export const MessageWrapper = styled.div(() => ({
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "flex-start",
+  alignItems: "stretch",
+  gap: "15px",
 }));

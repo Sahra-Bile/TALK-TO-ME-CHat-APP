@@ -34,7 +34,7 @@ export async function SaveMessageInDatabase(message: string, username: string, r
     console.log('Request successful:', response.data);
     return JSON.stringify(response.data);
   } catch (error:any) {
-    console.error('Request failed:', error.response);
+    // console.error('Request failed:', error.response);
     throw error;
   }
 
