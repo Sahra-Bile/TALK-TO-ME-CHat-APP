@@ -19,12 +19,20 @@ export const SendMessage = () => {
     }
   };
 
+  const submitByEnter = (e:any) => {
+    if(e.keyCode === 13){
+      sendMessage();
+    }
+  };
+
+
   return (
     <SendMessageContainer>
       <MessageInput
         placeholder=" Hi..."
         onChange={(e) => setMessage(e.target.value)}
         value={message}
+        onKeyDown={submitByEnter}
       />
       <button className="btn btn-primary " onClick={sendMessage}>
         Send Message
