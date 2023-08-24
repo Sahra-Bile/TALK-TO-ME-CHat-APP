@@ -17,13 +17,17 @@ export const CreateAndJoinRoom = () => {
   const navigate = useNavigate();
 
   const handleJoinRoom = () => {
+    //nåt fel på hur vi hanterar url path kolla vad som orsaker felet...
+    console.log("Leaving for /chat");
+    navigate("/chat", { replace: true });
     if (room === "" || username === "") {
       notifyFailure("You must enter your name and room name");
     } else if (room !== "" && username !== "") {
+      console.log("Emitting join_room...");
       socket.emit("join_room", { username, room });
+      console.log("Done!");
     }
-    //nåt fel på hur vi hanterar url path kolla vad som orsaker felet...
-    navigate("/chat", { replace: true });
+    
   };
 
   return (

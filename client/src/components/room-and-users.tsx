@@ -13,8 +13,14 @@ type User = {
   username: string;
 };
 
+type Room = {
+  id: string;
+  name: string;
+}
+
 export const RoomAndUsers = () => {
   const [roomUsers, setRoomUsers] = useState<User[]>([]);
+  const [roomList, setRoomList] = useState<Room[]>([]);
   const { username } = useUserContext();
   const socket = useSocket();
   const { room } = useRoomContext();
@@ -34,6 +40,14 @@ export const RoomAndUsers = () => {
       );
     };
 
+    const handleRoomList = (data: Room[]) => {
+      console.log("Room:", data);
+      setRoomList(data);  
+    };
+
+    console.log("Listening on chatroom_users...");
+
+    socket.on("messageroom_rooms_list", handleRoomList);
     socket.on("chatroom_users", handleChatroomUsers);
     socket.on("user_left", handleUserLeft);
 
@@ -48,6 +62,7 @@ export const RoomAndUsers = () => {
     socket.emit("leave_room", { username, room, __createdtime__ });
     // Redirect to home page
     navigate("/", { replace: true });
+    
   };
 
   return (
@@ -67,7 +82,22 @@ export const RoomAndUsers = () => {
               {user.username}
             </li>
           ))}
-        </UsersList>
+        </UsersList>   
+        {roomList.length > 0 && <UserName>Rooms:</UserName>}  
+        <UsersList>        
+        {roomList.map((r) => (
+            <li
+              style={{
+                marginBottom: "12px",
+                fontWeight: `${r.name === room ? "bold" : "normal"}`,
+              }}
+              key={r.id}
+            >
+              {r.name}
+            </li>
+          ))}
+
+          </UsersList>   
       </div>
 
       <button className="btn btn-outline" onClick={handleLeaveRoom}>
