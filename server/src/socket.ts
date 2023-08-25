@@ -25,6 +25,21 @@ export function setupSocket(server: any) {
         }
         joinRoom(socket, username, room);
       });
+      // Event listener for getting the list of active rooms
+      socket.on("get_active_rooms", () => {
+        socket.emit("active_rooms", activeRooms);
+      });
+  
+      // Event listener for joining a room from the list of active rooms
+
+      socket.on("join_active_room", (data) => {
+        const { roomName, username } = data;
+        if (roomExists(roomName)) {
+          joinRoom(socket, username, roomName);
+        }
+      });
+  
+  
   
       socket.on("disconnect", () => {
         allUsers = allUsers.filter((user) => user.id !== socket.id);
