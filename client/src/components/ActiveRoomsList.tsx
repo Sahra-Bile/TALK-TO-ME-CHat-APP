@@ -33,7 +33,7 @@ export const ActiveRoomsList = ({
           <li
             style={{ cursor: "pointer" }}
             key={room.id}
-            onClick={() => onJoinActiveRoom(room.name)}
+            onClick={() => handleNavigateToRoom(room.name)}
           >
             Room: {room.name}
           </li>

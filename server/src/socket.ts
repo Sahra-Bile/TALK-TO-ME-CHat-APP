@@ -1,83 +1,78 @@
 import { Server as SocketServer } from "socket.io";
-import { CHAT_BOT } from "./room";
-import { SaveMessageInDatabase } from "./harper-save-message";
-import { harperGetMessages } from "./get-messages";
-import { activeRooms } from "./room";
 import { v4 as uuidv4 } from "uuid";
 
+interface Room {
+  id: string;
+  name: string;
+  createdBy: string;
+}
+
+const CHAT_BOT = 'ChatBot';
+let activeRooms: Room[] = [];
 let allUsers: any[] = [];
 
 export function setupSocket(server: any) {
-    const io = new SocketServer(server, {
-      cors: {
-        origin: "http://localhost:3000",
-        methods: ["GET", "POST"],
-      },
-    });
-  
-    io.on("connection", (socket) => {
-      console.log(`User connected ${socket.id}`);
-  
-      socket.on("join_room", (data) => {
-        const { username, room } = data;
-        if (!roomExists(room)) {
-          createRoom(room, username);
-        }
-        joinRoom(socket, username, room);
-      });
-      // Event listener for getting the list of active rooms
-      socket.on("get_active_rooms", () => {
-        socket.emit("active_rooms", activeRooms);
-      });
-  
-      // Event listener for joining a room from the list of active rooms
+  const io = new SocketServer(server, {
+    cors: {
+      origin: "http://localhost:3000",
+      methods: ["GET", "POST"],
+    },
+  });
 
-      socket.on("join_active_room", (data) => {
-        const { roomName, username } = data;
-        if (roomExists(roomName)) {
-          joinRoom(socket, username, roomName);
-        }
-      });
-  
-  
-  
-      socket.on("disconnect", () => {
-        allUsers = allUsers.filter((user) => user.id !== socket.id);
-        console.log(`User disconnected ${socket.id}`);
-      });
-  
-      socket.on("send_message", async (data: any) => {
-        const { message, username, room, __createdtime__ } = data;
-        io.in(room).emit("receive_message", data);
-        try {
-          const response = await SaveMessageInDatabase(
-            message,
-            username,
-            room,
-            __createdtime__
-          );
-        } catch (error) {
-          console.log(error);
-        }
-      });
-  
-      socket.on("leave_room", (data) => {
-        const { username, room } = data;
-        leaveRoom(socket, username, room);
-      });
+  io.on("connection", (socket) => {
+    console.log(`User connected ${socket.id}`);
+
+    socket.on("join_room", (data) => {
+      const { username, room } = data;
+      if (!roomExists(room)) {
+        createRoom(io, room, username); // Pass 'io' as an argument
+      }
+      joinRoom(socket, username, room);
     });
-  }
-  
+
+    socket.on("get_active_rooms", () => {
+      socket.emit("active_rooms", activeRooms);
+    });
+
+    socket.on("join_active_room", (data) => {
+      const { roomName, username } = data;
+      if (roomExists(roomName)) {
+        joinRoom(socket, username, roomName);
+      }
+    });
+
+    socket.on("disconnect", () => {
+      allUsers = allUsers.filter((user) => user.id !== socket.id);
+      console.log(`User disconnected ${socket.id}`);
+    });
+
+    socket.on("send_message", async (data: any) => {
+      const { room } = data;
+      io.in(room).emit("receive_message", data);
+    });
+
+    socket.on("leave_room", (data) => {
+      const { username, room } = data;
+      activeRooms = activeRooms.filter((activeRoom) => activeRoom.name !== room);
+      leaveRoom(socket, username, room);
+      io.emit("active_rooms", activeRooms); // Send update to all clients
+    });
+  });
+}
 
 function roomExists(roomName: string): boolean {
   return activeRooms.some((room) => room.name === roomName);
 }
 
-function createRoom(roomName: string, createdBy: string) {
+
+function createRoom(io: any, roomName: string, createdBy: string) {
   const roomId = uuidv4();
-  activeRooms.push({ id: roomId, name: roomName, createdBy });
+  const newRoom = { id: roomId, name: roomName, createdBy };
+  activeRooms.push(newRoom);
+  io.emit("active_rooms", activeRooms); // Send update to all clients
   console.log(`Rum "${roomName}" (ID: ${roomId}) skapat av ${createdBy}`);
 }
+
 
 export function joinRoom(socket: any, username: string, room: string) {
     // Add the user to the room
@@ -119,6 +114,6 @@ export function joinRoom(socket: any, username: string, room: string) {
     // Update the list of current users in the room and emit it to everyone in the room
     allUsers = allUsers.filter((user) => user.id !== socket.id);
     const chatRoomUsers: any[] = allUsers.filter((user) => user.room === room);
-    socket.in(room).emit("chatroom_users", chatRoomUsers);
+    socket.in(room).emit("chatroom_users", chatRoomUsers)
   }
   

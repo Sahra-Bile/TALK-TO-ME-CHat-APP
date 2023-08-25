@@ -25,7 +25,7 @@ export const RoomAndUsers = () => {
 
   const { username } = useUserContext();
   const socket = useSocket();
-  const { room } = useRoomContext();
+  const { room, setRoom } = useRoomContext();
 
   const navigate = useNavigate();
 
@@ -58,11 +58,16 @@ export const RoomAndUsers = () => {
   }, [socket]);
 
   const handleLeaveRoom = () => {
-    const __createdtime__ = Date.now();
-    socket.emit("leave_room", { username, room, __createdtime__ });
-    // Redirect to home page
-    navigate("/", { replace: true });
+    if (room !== "") {
+      const __createdtime__ = Date.now();
+      socket.emit("leave_room", { username, room, __createdtime__ });
+      setRoom("");
+      socket.emit("get_active_rooms");
+      // Redirect to home page
+      navigate("/", { replace: true });
+    }
   };
+
   const handleJoinActiveRoom = (roomName: string) => {
     const data = { roomName, username };
     socket.emit("join_active_room", data);
