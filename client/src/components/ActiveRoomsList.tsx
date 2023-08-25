@@ -19,10 +19,10 @@ export const ActiveRoomsList = ({
   const navigate = useNavigate();
   const [selectedRoom, setSelectedRoom] = useState("");
 
-  const handleNavigateToRoom = (roomName: string) => {
-    setSelectedRoom(roomName);
-    onJoinActiveRoom(roomName);
-    navigate(`/room/${roomName}`);
+  const handleNavigateToRoom = (roomId: string) => {
+    setSelectedRoom(roomId);
+    onJoinActiveRoom(roomId);
+    navigate(`/room/${roomId}`);
   };
 
   return (
@@ -33,7 +33,7 @@ export const ActiveRoomsList = ({
           <li
             style={{ cursor: "pointer" }}
             key={room.id}
-            onClick={() => handleNavigateToRoom(room.name)}
+            onClick={() => handleNavigateToRoom(room.id)}
           >
             Room: {room.name}
           </li>

@@ -8,6 +8,7 @@ import {
   UsersList,
 } from "./styled-compoents/styled-components";
 import { ActiveRoomsList } from "./ActiveRoomsList";
+import { getMessagesFromLocalStorage } from "../utils/localStorageUtils";
 
 type User = {
   id: string;
@@ -62,6 +63,11 @@ export const RoomAndUsers = () => {
       const __createdtime__ = Date.now();
       socket.emit("leave_room", { username, room, __createdtime__ });
       setRoom("");
+      // Remove messages from localStorage for the current room
+      const messagesFromLocalStorage = getMessagesFromLocalStorage(room);
+      localStorage.removeItem(room); // Remove the messages for the current room
+      socket.emit("last_100_messages", messagesFromLocalStorage);
+
       socket.emit("get_active_rooms");
       // Redirect to home page
       navigate("/", { replace: true });

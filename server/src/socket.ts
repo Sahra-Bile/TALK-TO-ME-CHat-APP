@@ -38,6 +38,14 @@ export function setupSocket(server: any) {
       const { roomName, username } = data;
       if (roomExists(roomName)) {
         joinRoom(socket, username, roomName);
+
+        socket.to(roomName).emit("receive_message", {
+          message: `${username} has joined the chat room`,
+          username: CHAT_BOT,
+          __createdtime__: Date.now(),
+          room: roomName, // Lägg till information om vilket rum meddelandet hör till
+        });
+      
       }
     });
 
@@ -103,7 +111,6 @@ export function joinRoom(socket: any, username: string, room: string) {
   export function leaveRoom(socket: any, username: string, room: string) {
     // Remove the user from the room
     socket.leave(room);
-  
     // Emit a message to all other users in the room about the user leaving
     socket.to(room).emit("receive_message", {
       username: CHAT_BOT,
