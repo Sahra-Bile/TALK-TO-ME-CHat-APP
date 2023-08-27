@@ -7,7 +7,7 @@ interface Room {
   createdBy: string;
 }
 
-const CHAT_BOT = 'ChatBot';
+const CHAT_BOT = `ChatBot`;
 let activeRooms: Room[] = [];
 let allUsers: any[] = [];
 
@@ -45,7 +45,8 @@ export function setupSocket(server: any) {
           __createdtime__: Date.now(),
           room: roomName, // Lägg till information om vilket rum meddelandet hör till
         });
-      
+
+       
       }
     });
 
@@ -61,17 +62,29 @@ export function setupSocket(server: any) {
 
     socket.on("leave_room", (data) => {
       const { username, room } = data;
-      activeRooms = activeRooms.filter((activeRoom) => activeRoom.name !== room);
+      activeRooms = activeRooms.filter(
+        (activeRoom) => activeRoom.name !== room
+      );
       leaveRoom(socket, username, room);
       io.emit("active_rooms", activeRooms); // Send update to all clients
     });
+
+    socket.on("user_typing", (data) => {
+      const { room, username } = data;
+      socket.to(room).emit("user_typing", username);
+    });
+
+    socket.on("user_typing_end", (data) => {
+      const { room, username } = data;
+      socket.to(room).emit("user_typing_end", username);
+    });
+   
   });
 }
 
 function roomExists(roomName: string): boolean {
   return activeRooms.some((room) => room.name === roomName);
 }
-
 
 function createRoom(io: any, roomName: string, createdBy: string) {
   const roomId = uuidv4();
@@ -81,46 +94,44 @@ function createRoom(io: any, roomName: string, createdBy: string) {
   console.log(`Rum "${roomName}" (ID: ${roomId}) skapat av ${createdBy}`);
 }
 
+function joinRoom(socket: any, username: string, room: string) {
+  socket.join(room);
 
-export function joinRoom(socket: any, username: string, room: string) {
-    // Add the user to the room
-    socket.join(room);
-  
-    // Emit a welcome message to the user who joined
-    socket.emit("receive_message", {
-      message: `Welcome ${username} to ${room} `,
-      username: CHAT_BOT,
-      __createdtime__: Date.now(),
-    });
-  
-    // Emit a message to all other users in the room about the new user joining
-    socket.to(room).emit("receive_message", {
-      message: `${username} has joined the chat room`,
-      username: CHAT_BOT,
-      __createdtime__: Date.now(),
-    });
-  
-    // Get the list of current users in the room and emit it to everyone in the room
-    const chatRoomUsers: any[] = allUsers.filter((user) => user.room === room);
-    socket.in(room).emit("chatroom_users", chatRoomUsers);
-  
-    // Add the user to the list of all users
-    allUsers.push({ id: socket.id, username, room });
-  }
-  
-  export function leaveRoom(socket: any, username: string, room: string) {
-    // Remove the user from the room
-    socket.leave(room);
-    // Emit a message to all other users in the room about the user leaving
-    socket.to(room).emit("receive_message", {
-      username: CHAT_BOT,
-      message: `${username} has left the chat`,
-      __createdtime__: Date.now(),
-    });
-  
-    // Update the list of current users in the room and emit it to everyone in the room
-    allUsers = allUsers.filter((user) => user.id !== socket.id);
-    const chatRoomUsers: any[] = allUsers.filter((user) => user.room === room);
-    socket.in(room).emit("chatroom_users", chatRoomUsers)
-  }
-  
+  // Emit a welcome message to the user who just joined
+  socket.emit("receive_message", {
+    message: `Welcome ${username} to ${room}`,
+    username: CHAT_BOT,
+    __createdtime__: Date.now(),
+  });
+
+  // Get the list of current users in the room and emit it to everyone in the room
+  const chatRoomUsers: any[] = allUsers.filter((user) => user.room === room);
+  socket.in(room).emit("chatroom_users", chatRoomUsers);
+
+  // Emit a message to all other users in the room about the new user joining
+  socket.to(room).emit("receive_message", {
+    message: `${username} has joined the chat room`,
+    username: CHAT_BOT,
+    __createdtime__: Date.now(),
+    room: room,
+  });
+
+  // Add the user to the list of all users
+  allUsers.push({ id: socket.id, username, room });
+}
+
+export function leaveRoom(socket: any, username: string, room: string) {
+  // Remove the user from the room
+  socket.leave(room);
+  // Emit a message to all other users in the room about the user leaving
+  socket.to(room).emit("receive_message", {
+    username: CHAT_BOT,
+    message: `${username} has left the chat`,
+    __createdtime__: Date.now(),
+  });
+
+  // Update the list of current users in the room and emit it to everyone in the room
+  allUsers = allUsers.filter((user) => user.id !== socket.id);
+  const chatRoomUsers: any[] = allUsers.filter((user) => user.room === room);
+  socket.in(room).emit("chatroom_users", chatRoomUsers);
+}

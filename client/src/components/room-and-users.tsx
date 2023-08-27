@@ -43,8 +43,14 @@ export const RoomAndUsers = () => {
         prevUsers.filter((user) => user.username !== leftUsername)
       );
     };
+
     const handleActiveRooms = (data: Room[]) => {
       setActiveRooms(data);
+      // Uppdatera det aktiva rummet baserat på vad som finns i context
+      const currentRoom = data.find((rooms) => rooms.id === room);
+      if (!currentRoom) {
+        // setRoom(""); // Återställ aktivt rum om det inte längre är giltigt
+      }
     };
 
     socket.on("chatroom_users", handleChatroomUsers);
@@ -55,8 +61,9 @@ export const RoomAndUsers = () => {
     return () => {
       socket.off("chatroom_users", handleChatroomUsers);
       socket.off("user_left", handleUserLeft);
+      socket.off("active_rooms", handleActiveRooms);
     };
-  }, [socket]);
+  }, [room, socket]);
 
   const handleLeaveRoom = () => {
     if (room !== "") {
@@ -71,6 +78,8 @@ export const RoomAndUsers = () => {
       socket.emit("get_active_rooms");
       // Redirect to home page
       navigate("/", { replace: true });
+    } else {
+      console.log("Inget aktivt rum att lämna.");
     }
   };
 
@@ -83,7 +92,7 @@ export const RoomAndUsers = () => {
     <RoomColumn>
       <RoomTitle>{room}</RoomTitle>
       <div>
-        {roomUsers.length > 0 && <UserName>Users:</UserName>}
+        {<UserName>Users:</UserName>}
         <UsersList>
           {roomUsers.map((user) => (
             <li

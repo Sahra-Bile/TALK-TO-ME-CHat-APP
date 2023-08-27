@@ -31,11 +31,11 @@ export const ActiveRoomsList = ({
       <ul>
         {activeRooms.map((room) => (
           <li
-            style={{ cursor: "pointer" }}
+            style={{ cursor: "pointer", fontSize: "1.5rem" }}
             key={room.id}
             onClick={() => handleNavigateToRoom(room.id)}
           >
-            Room: {room.name}
+            {room.name}
           </li>
         ))}
       </ul>
