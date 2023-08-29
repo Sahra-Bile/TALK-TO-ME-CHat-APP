@@ -45,8 +45,6 @@ export function setupSocket(server: any) {
           __createdtime__: Date.now(),
           room: roomName, // Lägg till information om vilket rum meddelandet hör till
         });
-
-       
       }
     });
 
@@ -78,7 +76,6 @@ export function setupSocket(server: any) {
       const { room, username } = data;
       socket.to(room).emit("user_typing_end", username);
     });
-   
   });
 }
 
@@ -100,6 +97,7 @@ function joinRoom(socket: any, username: string, room: string) {
   // Emit a welcome message to the user who just joined
   socket.emit("receive_message", {
     message: `Welcome ${username} to ${room}`,
+    room: room,
     username: CHAT_BOT,
     __createdtime__: Date.now(),
   });
@@ -126,6 +124,7 @@ export function leaveRoom(socket: any, username: string, room: string) {
   // Emit a message to all other users in the room about the user leaving
   socket.to(room).emit("receive_message", {
     username: CHAT_BOT,
+    room: room,
     message: `${username} has left the chat`,
     __createdtime__: Date.now(),
   });
