@@ -34,7 +34,6 @@ export const RoomAndUsers = () => {
     const handleChatroomUsers = (data: User[]) => {
       console.log("Received chatroom_users:", data);
       setRoomUsers(data);
-      console.log("this, is the data:" + data);
     };
 
     const handleUserLeft = (leftUsername: string) => {
@@ -48,9 +47,7 @@ export const RoomAndUsers = () => {
       setActiveRooms(data);
       // Uppdatera det aktiva rummet baserat på vad som finns i context
       const currentRoom = data.find((rooms) => rooms.id === room);
-      if (!currentRoom) {
-        // setRoom(""); // Återställ aktivt rum om det inte längre är giltigt
-      }
+      if (!currentRoom) return;
     };
 
     socket.on("chatroom_users", handleChatroomUsers);

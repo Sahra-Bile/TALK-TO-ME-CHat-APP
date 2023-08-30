@@ -25,7 +25,7 @@ export function setupSocket(server: any) {
     socket.on("join_room", (data) => {
       const { username, room } = data;
       if (!roomExists(room)) {
-        createRoom(io, room, username); // Pass 'io' as an argument
+        createRoom(io, room, username); 
       }
       joinRoom(socket, username, room);
     });
@@ -43,7 +43,7 @@ export function setupSocket(server: any) {
           message: `${username} has joined the chat room`,
           username: CHAT_BOT,
           __createdtime__: Date.now(),
-          room: roomName, // Lägg till information om vilket rum meddelandet hör till
+          room: roomName, 
         });
       }
     });
@@ -53,7 +53,7 @@ export function setupSocket(server: any) {
       console.log(`User disconnected ${socket.id}`);
     });
 
-    socket.on("send_message", async (data: any) => {
+    socket.on("send_message", (data: any) => {
       const { room } = data;
       io.in(room).emit("receive_message", data);
     });

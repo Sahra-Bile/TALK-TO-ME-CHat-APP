@@ -12,7 +12,6 @@ export function Home({ setPage }: HomePageProps) {
   // Change the type of the event handler to MouseEventHandler
   const handleChange: MouseEventHandler<HTMLButtonElement> = (event) => {
     setPage(event.currentTarget.value); // Use currentTarget instead of target
-    // Redirect to /chat
     navigate("/room", { replace: true });
   };
 

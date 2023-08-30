@@ -36,7 +36,6 @@ function App() {
                   }
                 />
                 <Route path="/chat" element={<Chat />} />
-                <Route path="/room/:id" element={<Chat />} />
               </Routes>
             </Router>
           </RoomProvider>

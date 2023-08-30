@@ -52,7 +52,6 @@ export const MessagesReceived = () => {
     }
   }, [messagesReceived]);
 
-  // dd/mm/yyyy, hh:mm:ss
   function formatDateFromTimestamp(timestamp: number) {
     const date = new Date(timestamp);
     return date.toLocaleString();

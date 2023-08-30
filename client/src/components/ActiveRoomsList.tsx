@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 
 type Room = {
   id: string;
@@ -16,13 +15,8 @@ export const ActiveRoomsList = ({
   activeRooms,
   onJoinActiveRoom,
 }: ActiveRoomsListProps) => {
-  const navigate = useNavigate();
-  const [selectedRoom, setSelectedRoom] = useState("");
-
   const handleNavigateToRoom = (roomId: string) => {
-    setSelectedRoom(roomId);
     onJoinActiveRoom(roomId);
-    navigate(`/room/${roomId}`);
   };
 
   return (
