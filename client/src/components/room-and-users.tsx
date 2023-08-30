@@ -24,7 +24,7 @@ export const RoomAndUsers = () => {
   const [roomUsers, setRoomUsers] = useState<User[]>([]);
   const [activeRooms, setActiveRooms] = useState<Room[]>([]);
 
-  const { username } = useUserContext();
+  const { username, setUsername } = useUserContext();
   const socket = useSocket();
   const { room, setRoom } = useRoomContext();
 
@@ -69,8 +69,8 @@ export const RoomAndUsers = () => {
     if (room !== "") {
       const __createdtime__ = Date.now();
       socket.emit("leave_room", { username, room, __createdtime__ });
-      setRoom("");
-      // Remove messages from localStorage for the current room
+
+      //Remove messages from localStorage for the current room
       const messagesFromLocalStorage = getMessagesFromLocalStorage(room);
       localStorage.removeItem(room); // Remove the messages for the current room
       socket.emit("last_100_messages", messagesFromLocalStorage);
@@ -78,6 +78,8 @@ export const RoomAndUsers = () => {
       socket.emit("get_active_rooms");
       // Redirect to home page
       navigate("/", { replace: true });
+      setUsername("");
+      setRoom("");
     } else {
       console.log("Inget aktivt rum att lämna.");
     }

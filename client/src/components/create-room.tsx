@@ -22,7 +22,6 @@ export const CreateAndJoinRoom = () => {
     } else if (room !== "" && username !== "") {
       socket.emit("join_room", { username, room });
     }
-    //nåt fel på hur vi hanterar url path kolla vad som orsaker felet...
     navigate("/chat", { replace: true });
   };
 
