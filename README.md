@@ -51,6 +51,9 @@ Open your web browser and go to http://localhost:3000/.
 * Create new chat rooms.
 * Join existing chat rooms.
 * See a list of active rooms.
+* See a list of user in the rooms.
+* See if someone is typing.
+
 
 
 ### Technologies Used
