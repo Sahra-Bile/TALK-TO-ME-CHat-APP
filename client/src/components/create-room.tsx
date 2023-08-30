@@ -23,7 +23,6 @@ export const CreateAndJoinRoom = () => {
       socket.emit("join_room", { username, room });
     }
     navigate("/chat", { replace: true });
-    setUsername("");
   };
 
   return (

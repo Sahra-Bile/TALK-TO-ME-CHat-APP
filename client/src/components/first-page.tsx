@@ -40,7 +40,6 @@ export const FirstPage = () => {
       notifyFailure("You must enter your name and select a room");
     } else {
       socket.emit("join_room", { username, room });
-      setUsername("");
       navigate("/chat", { replace: true });
     }
   };
