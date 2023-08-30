@@ -35,15 +35,12 @@ export const FirstPage = () => {
   }, [socket]);
 
   const handleJoinRoom = () => {
-    console.log("Room:", room);
-    console.log("Username:", username);
-
     if (room === "" || username === "") {
       console.log("Missing room or username");
       notifyFailure("You must enter your name and select a room");
     } else {
-      console.log("Joining room:", room);
       socket.emit("join_room", { username, room });
+      setUsername("");
       navigate("/chat", { replace: true });
     }
   };
