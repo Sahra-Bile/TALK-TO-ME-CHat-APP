@@ -12,6 +12,7 @@ import "react-toastify/dist/ReactToastify.min.css";
 function App() {
   const [page, setPage] = useState("Create a New Room");
 
+  console.log("hej");
   const handlePageChange = (newPage: string) => {
     setPage(newPage);
   };
